@@ -29,8 +29,8 @@ docker compose up -d
 3) Open the Airflow UI: http://localhost:8080 (default: `airflow` / `airflow`).
 
 4) Set connections in Airflow (UI -> Admin -> Connections):
-- `redshift_conn` (Postgres‑compatible Redshift connection)
-- `mysql_analytics` (MySQL connection used by the export task)
+- `redshift` (Postgres‑compatible Redshift connection)
+- `mysql_local` (MySQL connection used by the export task, created in UI)
 
 Alternatively, you can configure connections via environment variables or a
 connections JSON, but the UI is simplest for local dev.
@@ -52,4 +52,3 @@ docs/scripts to bootstrap AWS permissions.
 - `logs/` and `__pycache__/` are ignored. If any cache files were present, they’ve been removed.
 - If you extend Python dependencies, prefer building a custom image instead of
   using `_PIP_ADDITIONAL_REQUIREMENTS` for anything beyond quick checks.
-

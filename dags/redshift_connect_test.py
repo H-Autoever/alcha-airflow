@@ -13,6 +13,6 @@ with DAG(
 
     test_connection = PostgresOperator(
         task_id="test_connection",
-        postgres_conn_id="redshift_conn",
+        postgres_conn_id="redshift",
         sql="connect/test_connection.sql",
     )

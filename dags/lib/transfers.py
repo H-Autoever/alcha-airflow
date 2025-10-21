@@ -8,8 +8,8 @@ def redshift_to_mysql(
     sql: str,
     target_table: str,
     target_fields: List[str],
-    redshift_conn_id: str = "redshift_conn",
-    mysql_conn_id: str = "mysql_analytics",
+    redshift_conn_id: str = "redshift",
+    mysql_conn_id: str = "mysql_local",
     commit_every: int = 1000,
 ) -> None:
     """Execute a SELECT on Redshift and insert the results into MySQL.
@@ -35,4 +35,3 @@ def redshift_to_mysql(
         commit_every=commit_every,
         replace=False,
     )
-

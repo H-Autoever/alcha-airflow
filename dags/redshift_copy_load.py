@@ -17,13 +17,13 @@ with DAG(
 
     copy_realtime_data = PostgresOperator(
         task_id="copy_realtime_data",
-        postgres_conn_id="redshift_conn",
+        postgres_conn_id="redshift",
         sql="sql/copy/realtime_prev_day.sql",
     )
 
     copy_periodic_data = PostgresOperator(
         task_id="copy_periodic_data",
-        postgres_conn_id="redshift_conn",
+        postgres_conn_id="redshift",
         sql="sql/copy/periodic_prev_day.sql",
     )
 
@@ -35,8 +35,8 @@ with DAG(
             sql=sql_text,
             target_table="alcha_db.insurance",
             target_fields=["vehicle_id", "over_speed_risk"],
-            redshift_conn_id="redshift_conn",
-            mysql_conn_id="mysql_analytics",
+            redshift_conn_id="redshift",
+            mysql_conn_id="mysql_local",
             commit_every=1000,
         )
 

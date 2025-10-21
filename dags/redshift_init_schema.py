@@ -14,19 +14,19 @@ with DAG(
 
     create_schema = PostgresOperator(
         task_id="create_schema",
-        postgres_conn_id="redshift_conn",
+        postgres_conn_id="redshift",
         sql="init/create_schema.sql",
     )
 
     create_realtime_table = PostgresOperator(
         task_id="create_realtime_table",
-        postgres_conn_id="redshift_conn",
+        postgres_conn_id="redshift",
         sql="init/create_realtime_table.sql",
     )
 
     create_periodic_table = PostgresOperator(
         task_id="create_periodic_table",
-        postgres_conn_id="redshift_conn",
+        postgres_conn_id="redshift",
         sql="init/create_periodic_table.sql",
     )
 
