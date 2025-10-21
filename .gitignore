@@ -1,0 +1,20 @@
+# Airflow local runtime artifacts
+logs/
+**/__pycache__/
+*.pyc
+
+# Local environment/config
+.env
+.venv/
+venv/
+.idea/
+.vscode/
+.DS_Store
+
+# Legacy/empty folders if left behind
+aws/
+scripts/
+
+# Misc
+sample.json
+
