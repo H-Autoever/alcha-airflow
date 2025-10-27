@@ -38,7 +38,7 @@ def build_monthly_copy_sql(table: str, s3_prefix: str) -> str:
         WHERE DATE_TRUNC('month', DATEADD(hour, 9, timestamp)) = {ANALYSIS_MONTH_EXPR}::DATE;
 
         COPY {table}
-        FROM 's3://team-alcha-etl-stage/curated/{s3_prefix}/year={{{{ macros.ds_format(macros.ds_add(ds, -1), "%Y-%m-%d", "%Y") }}}}/month={{{{ macros.ds_format(macros.ds_add(ds, -1), "%Y-%m-%d", "%m") }}}}/'
+        FROM 's3://team-alcha-etl-bucket/curated/{s3_prefix}/year={{{{ macros.ds_format(macros.ds_add(ds, -1), "%Y-%m-%d", "%Y") }}}}/month={{{{ macros.ds_format(macros.ds_add(ds, -1), "%Y-%m-%d", "%m") }}}}/'
         IAM_ROLE default
         FORMAT AS PARQUET;
         """

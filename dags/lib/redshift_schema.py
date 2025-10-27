@@ -90,7 +90,7 @@ CREATE_TABLE_SQLS = [
             suspension_shock_count BIGINT,
             adas_sensor_fault_count BIGINT,
             aeb_activation_count BIGINT,
-            total_distance DOUBLE PRECISION,
+            total_distance BIGINT,
             line_departure_warning_cont BIGINT
         );
         """

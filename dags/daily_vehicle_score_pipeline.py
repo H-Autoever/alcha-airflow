@@ -34,7 +34,7 @@ def build_daily_copy_sql(table: str, s3_prefix: str) -> str:
         WHERE DATEADD(hour, 9, timestamp)::DATE = '{{{{ macros.ds_add(ds, -1) }}}}'::DATE;
 
         COPY {table}
-        FROM 's3://team-alcha-etl-stage/curated/{s3_prefix}/year={{{{ macros.ds_format(macros.ds_add(ds, -1), "%Y-%m-%d", "%Y") }}}}/month={{{{ macros.ds_format(macros.ds_add(ds, -1), "%Y-%m-%d", "%m") }}}}/day={{{{ macros.ds_format(macros.ds_add(ds, -1), "%Y-%m-%d", "%d") }}}}/'
+        FROM 's3://team-alcha-etl-bucket/curated/{s3_prefix}/year={{{{ macros.ds_format(macros.ds_add(ds, -1), "%Y-%m-%d", "%Y") }}}}/month={{{{ macros.ds_format(macros.ds_add(ds, -1), "%Y-%m-%d", "%m") }}}}/day={{{{ macros.ds_format(macros.ds_add(ds, -1), "%Y-%m-%d", "%d") }}}}/'
         IAM_ROLE default
         FORMAT AS PARQUET;
         """
