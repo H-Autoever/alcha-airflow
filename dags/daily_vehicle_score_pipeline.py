@@ -250,6 +250,7 @@ def calculate_and_insert_scores(**_: dict) -> None:
             engine_coolant_temp_avg,
             transmission_oil_temp_avg,
             battery_voltage_avg,
+            alternator_output_avg,
             temperature_ambient_avg,
             dtc_count,
             gear_change_count,
@@ -273,6 +274,7 @@ def calculate_and_insert_scores(**_: dict) -> None:
             :engine_coolant_temp_avg,
             :transmission_oil_temp_avg,
             :battery_voltage_avg,
+            :alternator_output_avg,
             :temperature_ambient_avg,
             :dtc_count,
             :gear_change_count,
@@ -302,6 +304,7 @@ def calculate_and_insert_scores(**_: dict) -> None:
             engine_coolant_temp_avg = VALUES(engine_coolant_temp_avg),
             transmission_oil_temp_avg = VALUES(transmission_oil_temp_avg),
             battery_voltage_avg = VALUES(battery_voltage_avg),
+            alternator_output_avg = VALUES(alternator_output_avg),
             temperature_ambient_avg = VALUES(temperature_ambient_avg),
             dtc_count = VALUES(dtc_count),
             gear_change_count = VALUES(gear_change_count),
@@ -331,7 +334,7 @@ with DAG(
     dag_id="daily_vehicle_score_pipeline",
     description="Daily aggregation and score calculation for vehicle data",
     default_args=default_args,
-    schedule_interval=None,
+    schedule_interval="30 0 * * *",
     start_date=START_DATE,
     catchup=False,
     tags=["vehicle", "analytics", "score"],
@@ -376,4 +379,3 @@ with DAG(
     for copy_task in copy_tasks:
         ensure_tables >> copy_task >> aggregate_task
     aggregate_task >> score_task
-
