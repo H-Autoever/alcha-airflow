@@ -10,8 +10,6 @@ import sqlalchemy
 from airflow import DAG
 from airflow.hooks.base import BaseHook
 from airflow.operators.python import PythonOperator
-from airflow.providers.postgres.hooks.postgres import PostgresHook
-from airflow.providers.postgres.operators.postgres import PostgresOperator
 
 from lib.redshift_schema import CREATE_TABLE_SQLS
 
@@ -220,41 +218,20 @@ with DAG(
     catchup=False,
     tags=["vehicle", "analytics", "monthly", "habit"],
 ) as dag:
-    check_connection = PostgresOperator(
-        task_id="check_redshift_connection",
-        postgres_conn_id="redshift",
-        sql="SELECT 1;",
-        autocommit=True,
-    )
+    check_connection = create_sql_task("check_redshift_connection", "SELECT 1;")
 
-    ensure_tables = PostgresOperator(
-        task_id="ensure_redshift_tables",
-        postgres_conn_id="redshift",
-        sql=CREATE_TABLE_SQLS,
-        autocommit=True,
-    )
+    ensure_tables = create_sql_task("ensure_redshift_tables", CREATE_TABLE_SQLS)
 
     copy_tasks = [
-        PostgresOperator(
-            task_id=task_id,
-            postgres_conn_id="redshift",
-            sql=build_monthly_copy_sql(table, prefix),
-            autocommit=True,
-        )
+        create_sql_task(task_id, build_monthly_copy_sql(table, prefix))
         for task_id, table, prefix in MONTHLY_COPY_SOURCES
     ]
 
-    aggregate_task = PostgresOperator(
-        task_id="aggregate_driving_habit_monthly",
-        postgres_conn_id="redshift",
-        sql=MONTHLY_AGGREGATE_SQL,
-        autocommit=True,
-    )
+    aggregate_task = create_sql_task("aggregate_driving_habit_monthly", MONTHLY_AGGREGATE_SQL)
 
     insert_task = PythonOperator(
         task_id="insert_driving_habit_monthly_to_mysql",
         python_callable=insert_monthly_habit_to_mysql,
-        provide_context=True,
     )
 
     check_connection >> ensure_tables
