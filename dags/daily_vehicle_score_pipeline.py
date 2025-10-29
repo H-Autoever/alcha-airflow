@@ -334,7 +334,7 @@ with DAG(
     dag_id="daily_vehicle_score_pipeline",
     description="Daily aggregation and score calculation for vehicle data",
     default_args=default_args,
-    schedule_interval="30 0 * * *",
+    schedule="30 0 * * *",
     start_date=START_DATE,
     catchup=False,
     tags=["vehicle", "analytics", "score"],

@@ -215,7 +215,7 @@ with DAG(
     dag_id="monthly_driving_habit_pipeline",
     description="Monthly driving habit statistics aggregation and insert into MySQL",
     default_args=default_args,
-    schedule_interval="30 0 1 * *",
+    schedule="30 0 1 * *",
     start_date=START_DATE,
     catchup=False,
     tags=["vehicle", "analytics", "monthly", "habit"],
@@ -261,4 +261,3 @@ with DAG(
     for copy_task in copy_tasks:
         ensure_tables >> copy_task >> aggregate_task
     aggregate_task >> insert_task
-
